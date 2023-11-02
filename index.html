@@ -7,7 +7,7 @@
 <div id="app">
     <header>
         <h1 v-text="sitename"></h1>
-        <button>
+        <button @click="showCheckout">
             <!-- 'cartItemCount' is used the same way as a data property. -->
             {{ cartItemCount }}
             <!-- add the cart icon -->
@@ -15,7 +15,8 @@
         </button>
     </header>
     <main>
-        <figure>
+            <div v-if="showProduct">
+            <figure>
             <!-- bind 'src' attr to 'product.image' in 'data' -->
             <img v-bind:src="product.image">
         </figure>
@@ -25,6 +26,7 @@
         <p>Price: {{product.price}}</p>
         <button @click="addToCart" v-if="canAddToCart">Add to cart</button>
         <button disabled='disabled'v-else>Add to cart</button>
+        </div>
     </main>
 </div>
 <script type="text/javascript">
@@ -33,6 +35,7 @@ var webstore = new Vue({
     data: { // the 'data' option
         // the key 'sitename' matches the value of 'v-text' earlier
         sitename: 'Vue.js Pet Depot',
+        showProduct: true,
         product: {
             id: 1001,
             title: "Cat Food, 25lb bag",
@@ -46,6 +49,9 @@ var webstore = new Vue({
     methods: {
         addToCart: function() {
             this.cart.push(this.product.id);
+        },
+        showCheckout: function() {
+            this.showProduct = this.showProduct ? false : true;
         }
     },
     computed: { // the Computed Property object
