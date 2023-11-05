@@ -1,12 +1,12 @@
-let lessons = [
+let products = [
     {
-        "id": 1001,
-        "title": "Cat Food, 25lb bag",
-        "description": "A 25 pound bag of <em>irresistible</em>, organic goodness for your cat.",
-        "price": 2000,
-        "image": "catfood.jpg",
-        "availableInventory": 10,
-        "rating": 3
+        id: 1001,
+        title: "Cat Food, 25lb bag",
+        description: "A 25 pound bag of irresistible," + " organic goodness for your cat.",
+        price: 2000,
+        image: "images/product-fullsize.png",
+        availableInventory: 5,
+        rating: 4
     },
     {
         "id": 1002,
