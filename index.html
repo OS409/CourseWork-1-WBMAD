@@ -1,32 +1,36 @@
 <html>
 <head>
-<title>Vue.js Pet Depot</title>
+<title>School Lesson Purchasing Site</title>
 <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-<script src="products.js"></script>
+<script src="lessons.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <div id="app">
     <header>
         <h1 v-text="sitename"></h1>
-        <button @click="showCheckout">
-            <!-- 'cartItemCount' is used the same way as a data property. -->
-            {{ cartItemCount }}
-            <!-- add the cart icon -->
-            <span class="fas fa-cart-plus"></span> Checkout
-        </button>
-    </header>
+        <button @click="showCheckout" v-if='cartItemCount > 0'>{{ cartItemCount }}<span class="fas fa-cart-plus"></span>Checkout</button>
+        <button disabled='disabled'v-else>Checkout</button>
+        <input type="text" v-model="searchTerm" placeholder="Search lessons">
+        <select name="sorts" id="sorts" v-model="selectedSort">
+            <option value="subject" v-text="sorts.subject"></option>
+            <option value="price" v-text="sorts.price"></option>
+            <option value="location" v-text="sorts.location"></option>
+            <option value="spaces" v-text="sorts.spaces"></option>
+        </select>
+        <button @click="toggleSortOrder"><i class="fas fa-sort"></i></button>
+        </header>
     <main>
-            <div v-if="showProduct">
-                <div v-for="product in sortedProducts">
+            <div v-if="showLesson">
+                <div v-for="lesson in sortedLessons">
             <figure>
-            <!-- bind 'src' attr to 'product.image' in 'data' -->
-            <img v-bind:src="product.image">
+            <img v-bind:src="lesson.image">
         </figure>
-        <h2 v-text="product.title"></h2>
-        <p v-text="product.description"></p>
+        <h2 v-text="lesson.subject"></h2>
+        <p v-text="lesson.description"></p>
         <!-- The double curly brackets is used instead of 'v-text' -->
-        <p>Price: {{product.price}}</p>
-        <button @click="addToCart(product)" v-if="canAddToCart(product)">Add to cart</button>
+        <p>Price: {{lesson.price}}</p>
+        <p>Location: {{lesson.location}}</p>
+        <button @click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to cart</button>
         <button disabled='disabled'v-else>Add to cart</button>
                 </div>
         </div>
@@ -85,9 +89,12 @@ var webstore = new Vue({
     el: '#app', // <=== Don't forget this comma
     data: { // the 'data' option
         // the key 'sitename' matches the value of 'v-text' earlier
-        sitename: 'Vue.js Pet Depot',
-        showProduct: true,
-        products: products,
+        sitename: 'School Lesson Purchasing Site',
+        showLesson: true,
+        lessons: lessons,
+        selectedSort: 'subject',
+        sortOrder: 'asc',
+        searchTerm: '',
         order: {
             firstName: ``,
             lastName: ``,
@@ -106,20 +113,26 @@ var webstore = new Vue({
             CA: `California`,
             NV: `Nevada`
         },
+        sorts: {
+            subject: `Subject`,
+            price: `Price`,
+            location: `Location`,
+            spaces: `Spaces`
+        },
         cart: []
     },
     methods: {
-        addToCart: function(product) {
-            this.cart.push(this.product.id(product.id));
+        addToCart: function(lesson) {
+            this.cart.push(lesson.id);
         },
         showCheckout: function() {
-            this.showProduct = this.showProduct ? false : true;
+            this.showLesson = this.showLesson ? false : true;
         },
         submitForm: function() {
             alert('Order submitted!')
         },
-        canAddToCart: function(product) {
-            return product.availableInventory > this.cartCount(product.id);
+        canAddToCart: function(lesson) {
+            return lesson.spaces > this.cartCount(lesson.id);
         },
         cartCount: function(id) {
             let count = 0;
@@ -129,6 +142,9 @@ var webstore = new Vue({
                 }
             }
             return count;
+        },
+        toggleSortOrder() {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
         }
     },
     computed: { // the Computed Property object
@@ -136,14 +152,62 @@ var webstore = new Vue({
         // its value is calculated when it is called
         return this.cart.length || ``;
         },
-        sortedProducts() {
+        sortedLessonsPrice() {
             function compare(a, b) {
                 if (a.price > b.price) return 1;
                 if (a.price < b.price) return -1;
                 return 0;
             }
-            return this.products.sort(compare);
-        }
+            return this.lessons.sort(compare);
+        },
+        sortedLessonsSpaces() {
+            function compare(a, b) {
+                if (a.spaces > b.spaces) return 1;
+                if (a.spaces < b.spaces) return -1;
+                return 0;
+            }
+            return this.lessons.sort(compare);
+        },
+        sortedLessonsLocation() {
+            function compare(a, b) {
+                if (a.location > b.location) return 1;
+                if (a.location < b.location) return -1;
+                return 0;
+            }
+            return this.lessons.sort(compare);
+        },
+        sortedLessonsSubject() {
+            function compare(a, b) {
+                if (a.subject > b.subject) return 1;
+                if (a.subject < b.subject) return -1;
+                return 0;
+            }
+            return this.lessons.sort(compare);
+        },
+        sortedLessons() {
+            let sortedLessons;
+            const searchTerm = this.searchTerm.toLowerCase();
+            if (this.selectedSort === 'subject') {
+                sortedLessons = this.sortedLessonsSubject;
+            } else if (this.selectedSort === 'price') {
+                sortedLessons = this.sortedLessonsPrice;
+            } else if (this.selectedSort === 'location') {
+                sortedLessons = this.sortedLessonsLocation;
+            } else if (this.selectedSort === 'spaces') {
+                sortedLessons = this.sortedLessonsSpaces;
+            } else {
+                sortedLessons = this.lessons.sort((a, b) => a.subject.localeCompare(b.subject));
+            }
+            if (searchTerm) {
+                sortedLessons = sortedLessons.filter(lesson => {
+                    return lesson.subject.toLowerCase().includes(searchTerm) || lesson.location.toLowerCase().includes(searchTerm);
+                });
+            }
+            if (this.sortOrder === 'desc') {
+                return sortedLessons.reverse();
+            }
+            return sortedLessons;
+        },
     }
 });
 </script>

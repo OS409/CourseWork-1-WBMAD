@@ -100,7 +100,7 @@ let lessons = [
     },
     {
         id: 1013,
-        subject: "Surayt ",
+        subject: "Surayt",
         description: "Assyrian Neo-Aramaic Class for all students",
         image: "images/product-fullsize.png",
         location: "E13",
