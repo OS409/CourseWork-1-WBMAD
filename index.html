@@ -21,7 +21,8 @@
                     <option value="location" v-text="sorts.location"></option>
                     <option value="spaces" v-text="sorts.spaces"></option>
                 </select>
-                <button @click="toggleSortOrder"><i class="fas fa-sort"></i></button>
+                <button @click="toggleSortOrder" v-if='sortOrder != "desc"'><i class="fas fa-sort-amount-up"></i></button>
+                <button @click="toggleSortOrder" v-else><i class="fas fa-sort-amount-down"></i></button>
                 <div v-for="lesson in sortedLessons">
             <figure>
             <img class="lesson-image" v-bind:src="lesson.image">
@@ -31,6 +32,7 @@
         <!-- The double curly brackets is used instead of 'v-text' -->
         <p>Price: {{lesson.price}}</p>
         <p>Location: {{lesson.location}}</p>
+        <p>Availability: {{lesson.spaces}}</p>
         <button @click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to cart</button>
         <button disabled='disabled'v-else>Add to cart</button>
                 </div>
@@ -48,39 +50,15 @@
             <input v-model.trim="order.lastName"/>
             </p>
             <p>
-            <strong>Address:</strong>
-            <input v-model.trim="order.address"/>
-            </p>
-            <p>
-            <strong>City:</strong>
-            <input v-model.trim="order.city"/>
-            </p>
-            <p>
                 <strong>Phone Number:</strong>
                 <input v-model="order.phone"/>
                 </p>
             <p>
-            <strong>State:</strong>
-            <select v-model="order.state">
-                <option disabled value="">State</option>
-                <option v-for="(state, key) in states" v-bind:value="state">
-                {{ key }}
-            </select>
             </p>
-            <p><input type="checkbox" id="gift" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.dontSendGift">
-                <label for="gift">Ship As Gift?</label></p>
-                <p><input type="radio" id="home" value="Home" v-model="order.method">
-                <label for="home">Home</label>
-                <input type="radio" id="business" value="Business" v-model="order.method">
-                <label for="business">Business</label></p>
-
             <h2>Order Information</h2>
             <p>First Name: {{order.firstName}}</p>
             <p>Last Name: {{order.lastName}}</p>
-            <p>Address: {{order.address}}</p>
-            <p>City: {{order.city}}</p>
             <p>Phone Number: {{order.phone}}</p>
-            <p>State: {{order.state}}</p>
             <h2>Selected Lessons</h2>
             <ul>
                 <li v-for="(id, index) in cart" :key="index">
@@ -111,20 +89,7 @@ var webstore = new Vue({
         order: {
             firstName: ``,
             lastName: ``,
-            address: ``,
-            city: ``,
-            state: ``,
             phone: ``,
-            gift: false,
-            method: `Home`,
-            sendGift: `Send As Gift`,
-            dontSendGift: `Don't Send As Gift`
-        },
-        states: {
-            AL: `Alabama`,
-            AR: `Arkansas`,
-            CA: `California`,
-            NV: `Nevada`
         },
         sorts: {
             subject: `Subject`,
@@ -160,7 +125,7 @@ var webstore = new Vue({
             return count;
         },
         toggleSortOrder() {
-        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
         }
     },
     computed: { // the Computed Property object
