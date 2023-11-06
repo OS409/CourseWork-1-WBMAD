@@ -3,27 +3,28 @@
 <title>School Lesson Purchasing Site</title>
 <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
 <script src="lessons.js"></script>
+<link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <div id="app">
     <header>
         <h1 v-text="sitename"></h1>
-        <button @click="showCheckout" v-if='cartItemCount > 0'>{{ cartItemCount }}<span class="fas fa-cart-plus"></span>Checkout</button>
+        <button @click="showCheckout" v-if='cartItemCount > 0 || !showLesson'>{{ cartItemCount }}<span class="fas fa-cart-plus"></span>Checkout</button>
         <button disabled='disabled'v-else>Checkout</button>
-        <input type="text" v-model="searchTerm" placeholder="Search lessons">
-        <select name="sorts" id="sorts" v-model="selectedSort">
-            <option value="subject" v-text="sorts.subject"></option>
-            <option value="price" v-text="sorts.price"></option>
-            <option value="location" v-text="sorts.location"></option>
-            <option value="spaces" v-text="sorts.spaces"></option>
-        </select>
-        <button @click="toggleSortOrder"><i class="fas fa-sort"></i></button>
         </header>
     <main>
             <div v-if="showLesson">
+                <input type="text" v-model="searchTerm" placeholder="Search lessons">
+                <select name="sorts" id="sorts" v-model="selectedSort">
+                    <option value="subject" v-text="sorts.subject"></option>
+                    <option value="price" v-text="sorts.price"></option>
+                    <option value="location" v-text="sorts.location"></option>
+                    <option value="spaces" v-text="sorts.spaces"></option>
+                </select>
+                <button @click="toggleSortOrder"><i class="fas fa-sort"></i></button>
                 <div v-for="lesson in sortedLessons">
             <figure>
-            <img v-bind:src="lesson.image">
+            <img class="lesson-image" v-bind:src="lesson.image">
         </figure>
         <h2 v-text="lesson.subject"></h2>
         <p v-text="lesson.description"></p>
@@ -55,8 +56,8 @@
             <input v-model.trim="order.city"/>
             </p>
             <p>
-                <strong>Zip/Postal Code:</strong>
-                <input v-model="order.zip"/>
+                <strong>Phone Number:</strong>
+                <input v-model="order.phone"/>
                 </p>
             <p>
             <strong>State:</strong>
@@ -78,9 +79,21 @@
             <p>Last Name: {{order.lastName}}</p>
             <p>Address: {{order.address}}</p>
             <p>City: {{order.city}}</p>
-            <p>Zip: {{order.zip}}</p>
+            <p>Phone Number: {{order.phone}}</p>
             <p>State: {{order.state}}</p>
-            <button v-on:click="submitForm">Place Order</button>
+            <h2>Selected Lessons</h2>
+            <ul>
+                <li v-for="(id, index) in cart" :key="index">
+                    <div>
+                        <p>Subject: {{ lessons.find(lesson => lesson.id === id).subject }}
+                           Location: {{ lessons.find(lesson => lesson.id === id).location }}
+                           <button @click="subtractFromCart(lessons.find(lesson => lesson.id === id))">Delete</button>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <button disabled='disabled' v-if="validNameAndPhone">Place Order</button>
+            <button @click="submitForm" v-else>Place Order</button>
             </div>
     </main>
 </div>
@@ -101,7 +114,7 @@ var webstore = new Vue({
             address: ``,
             city: ``,
             state: ``,
-            zip: ``,
+            phone: ``,
             gift: false,
             method: `Home`,
             sendGift: `Send As Gift`,
@@ -124,6 +137,9 @@ var webstore = new Vue({
     methods: {
         addToCart: function(lesson) {
             this.cart.push(lesson.id);
+        },
+        subtractFromCart: function(lesson) {
+            this.cart.pop(lesson.id);
         },
         showCheckout: function() {
             this.showLesson = this.showLesson ? false : true;
@@ -207,6 +223,18 @@ var webstore = new Vue({
                 return sortedLessons.reverse();
             }
             return sortedLessons;
+        },
+        validNameAndPhone(){
+            if (this.order.firstName.trim() === "" ||
+        !/^[A-Za-z]+$/.test(this.order.firstName) ||
+        this.order.lastName.trim() === "" ||
+        !/^[A-Za-z]+$/.test(this.order.lastName) ||
+        this.order.phone.trim() === "" ||
+        !/^[0-9]+$/.test(this.order.phone)) {
+        return true;
+    } else {
+        return false;
+    }
         },
     }
 });
