@@ -84,7 +84,7 @@ let lessons = [
         id: 1011,
         subject: "Chemistry",
         description: "Chemistry Class for all students",
-        image: "images/Chemistry.png",
+        image: "images/chemistry.png",
         location: "S11",
         price: 2700,
         spaces: 5,
