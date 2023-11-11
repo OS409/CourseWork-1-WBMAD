@@ -1,2 +1,3 @@
 # CourseWork1-WBMAD
-The repository for my coursework
+https://github.com/OS409/os409.github.io
+https://os409.github.io/
