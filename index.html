@@ -35,7 +35,7 @@
                     <p>{{lesson.description}}</p>
                     <p>Price: {{lesson.price}}</p>
                     <p>Location: {{lesson.location}}</p>
-                    <p>Availability: {{lesson.spaces - cartCount(lesson.id)}}</p>
+                    <p>Availability: {{lesson.spaces}}</p>
                     <button @click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to cart</button>
                     <button disabled='disabled' v-else>Add to cart</button>
                 </div>
@@ -99,12 +99,14 @@
         methods: {
             addToCart: function(lesson) {
                 this.cart.push(lesson.id);
+                lesson.spaces -= 1;
             },
             subtractFromCart: function(lesson) {
                 const index = this.cart.indexOf(lesson.id);
                 if (index > -1) {
                     this.cart.splice(index, 1);
                 }
+                lesson.spaces += 1;
             },
             showCart: function() {
                 this.showLesson = this.showLesson ? false : true;
@@ -113,7 +115,7 @@
                 alert('Order submitted!')
             },
             canAddToCart: function(lesson) {
-                return lesson.spaces > this.cartCount(lesson.id);
+                return lesson.spaces > -1;
             },
             cartCount: function(id) {
                 let count = 0;
@@ -142,8 +144,8 @@
                 },
                 sortedLessonsSpaces() {
                     function compare(a, b) {
-                        if (a.spaces - this.cartCount(a.id) > b.spaces - this.cartCount(b.id)) return 1;
-                        if (a.spaces - this.cartCount(a.id) < b.spaces - this.cartCount(b.id)) return -1;
+                        if (a.spaces > b.spaces) return 1;
+                        if (a.spaces < b.spaces) return -1;
                         return 0;
                     }
                     return this.lessons.sort(compare.bind(this));
