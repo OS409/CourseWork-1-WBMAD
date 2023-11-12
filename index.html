@@ -35,7 +35,7 @@
                     <p>{{lesson.description}}</p>
                     <p>Price: {{lesson.price}}</p>
                     <p>Location: {{lesson.location}}</p>
-                    <p>Availability: {{5 - cartCount(lesson.id)}}</p>
+                    <p>Availability: {{lesson.spaces - cartCount(lesson.id)}}</p>
                     <button @click="addToCart(lesson)" v-if="canAddToCart(lesson)">Add to cart</button>
                     <button disabled='disabled' v-else>Add to cart</button>
                 </div>
@@ -142,11 +142,11 @@
                 },
                 sortedLessonsSpaces() {
                     function compare(a, b) {
-                        if (a.spaces > b.spaces) return 1;
-                        if (a.spaces < b.spaces) return -1;
+                        if (a.spaces - this.cartCount(a.id) > b.spaces - this.cartCount(b.id)) return 1;
+                        if (a.spaces - this.cartCount(a.id) < b.spaces - this.cartCount(b.id)) return -1;
                         return 0;
                     }
-                    return this.lessons.sort(compare);
+                    return this.lessons.sort(compare.bind(this));
                 },
                 sortedLessonsLocation() {
                     function compare(a, b) {
@@ -186,9 +186,10 @@
                         });
                     }
                     if (this.sortOrder === 'desc') {
-                        return sortedLessons.reverse();
+                        return [...sortedLessons].reverse();
+                    } else {
+                        return sortedLessons;
                     }
-                    return sortedLessons;
                 },
                 validNameAndPhone(){
                     if (this.order.firstName.trim() === "" ||
