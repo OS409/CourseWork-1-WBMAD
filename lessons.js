@@ -15,7 +15,7 @@ let lessons = [
         image: "images/english.png",
         location: "E07",
         price: 1500,
-        spaces: 5,
+        spaces: 6,
     },
     {
         id: 1003,
@@ -24,7 +24,7 @@ let lessons = [
         image: "images/science.png",
         location: "M03",
         price: 3000,
-        spaces: 5,
+        spaces: 8,
     },
     {
         id: 1004,
@@ -42,7 +42,7 @@ let lessons = [
         image: "images/geography.png",
         location: "G05",
         price: 1800,
-        spaces: 5,
+        spaces: 9,
     },
     {
         id: 1006,
@@ -69,7 +69,7 @@ let lessons = [
         image: "images/computer.png",
         location: "C09",
         price: 2800,
-        spaces: 5,
+        spaces: 11,
     },
     {
         id: 1010,
@@ -78,7 +78,7 @@ let lessons = [
         image: "images/biology.png",
         location: "S10",
         price: 2600,
-        spaces: 5,
+        spaces: 6,
     },
     {
         id: 1011,
@@ -105,6 +105,6 @@ let lessons = [
         image: "images/assyrian_flag.png",
         location: "E13",
         price: 2400,
-        spaces: 5,
+        spaces: 25,
     },
 ]
