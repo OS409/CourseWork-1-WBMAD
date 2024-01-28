@@ -79,7 +79,7 @@
         data: {
             sitename: 'School Lesson Purchasing Site',
             showLesson: true,
-            lessons: lessons,
+            lessons: [],
             selectedSort: 'subject',
             sortOrder: 'asc',
             searchTerm: '',
@@ -96,6 +96,19 @@
             },
             cart: []
         },
+        
+        created: function() {
+            fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons").then(
+                function(response) {
+                    response.json().then(
+                        function(json) {
+                            webstore.lessons = json;
+                        }
+                    )
+                }
+            );
+        },
+
         methods: {
             addToCart: function(lesson) {
                 this.cart.push(lesson.id);
@@ -112,10 +125,47 @@
                 this.showLesson = this.showLesson ? false : true;
             },
             submitForm: function() {
-                alert('Order submitted!')
-            },
+    let combinedData = {
+        ...this.order,
+        lessons: this.cart,
+        spaces: this.cart.length
+    };
+
+    fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/orders", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(combinedData)
+    }).then(
+    function(response) {
+        response.json().then(
+            function(json) {
+                alert('Order submitted!' + json.acknowledged);
+                console.log('Order submitted!' + json.acknowledged);
+
+                webstore.orders.push(combinedData)
+            }
+        )
+    });
+
+    // Send a single PUT request with the array of lesson IDs
+    fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(combinedData.lessons) // Send the array of lesson IDs
+    }).then(response => {
+        if (!response.ok) {
+            console.error(`Error updating lessons: `, response.statusText);
+        }
+    });
+
+    alert('Order submitted!')
+},
             canAddToCart: function(lesson) {
-                return lesson.spaces > -1;
+                return lesson.spaces > 0;
             },
             cartCount: function(id) {
                 let count = 0;
