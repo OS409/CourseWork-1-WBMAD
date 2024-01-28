@@ -155,6 +155,7 @@
         },
         body: JSON.stringify(combinedData.lessons) // Send the array of lesson IDs
     }).then(response => {
+        console.log(JSON.stringify(combinedData.lessons));
         if (!response.ok) {
             console.error(`Error updating lessons: `, response.statusText);
         }
