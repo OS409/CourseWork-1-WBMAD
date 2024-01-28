@@ -141,7 +141,7 @@
     function(response) {
         response.json().then(
             function(json) {
-                alert('Order submitted!' + json.acknowledged);
+                alert('Order submitted!');
                 console.log('Order submitted!' + json.acknowledged);
 
                 webstore.orders.push(combinedData)
