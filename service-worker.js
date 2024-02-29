@@ -10,6 +10,7 @@ var cacheFiles = [
     "images/english.png",
     "images/geography.png",
     "images/icon-32.png",
+    "images/icon-512.png",
     "images/maths.png",
     "images/music.png",
     "images/physics.png",
