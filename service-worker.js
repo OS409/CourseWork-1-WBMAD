@@ -12,7 +12,9 @@ var cacheFiles = [
     "images/music.png",
     "images/physics.png",
     "images/science.png",
-    "images/assyrian_flag.png"
+    "images/assyrian_flag.png",
+    "images/icon-32.png",
+    "images/icon-512.png"
 ];
 
 self.addEventListener("install", function(e) {
