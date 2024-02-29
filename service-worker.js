@@ -2,19 +2,19 @@ var cacheName = "classpurchase";
 var cacheFiles = [
     "index.html",
     "images/art.png",
+    "images/assyrian_flag.png",
     "images/biology.png",
     "images/chemistry.png",
+    "images/classics.png",
     "images/computer.png",
     "images/english.png",
-    "images/classics.png",
     "images/geography.png",
+    "images/icon-32.png",
+    "images/icon-512.png",
     "images/maths.png",
     "images/music.png",
     "images/physics.png",
-    "images/science.png",
-    "images/assyrian_flag.png",
-    "images/icon-32.png",
-    "images/icon-512.png"
+    "images/science.png"
 ];
 
 self.addEventListener("install", function(e) {
