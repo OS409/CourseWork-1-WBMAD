@@ -29,7 +29,7 @@
                 <button @click="toggleSortOrder" v-else><i class="fas fa-sort-amount-down"></i></button>
                 <div v-for="lesson in sortedLessons">
                     <figure>
-                        <img class="lesson-image" v-bind:src="'http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/' + lesson.image">                    </figure>
+                        <img class="lesson-image" v-bind:src="'https://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/' + lesson.image">                    </figure>
                     <h2>{{lesson.subject}}</h2>
                     <p>{{lesson.description}}</p>
                     <p>Price: {{lesson.price}}</p>
@@ -99,8 +99,8 @@
         created: function() {
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("service-worker.js");
-            };
-            fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons").then(
+            }
+            fetch("https://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons").then(
                 function(response) {
                     response.json().then(
                         function(json) {
@@ -133,7 +133,7 @@
         spaces: this.cart.length
     };
 
-    fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/orders", {
+    fetch("https://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/orders", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -151,7 +151,7 @@
         )
     });
 
-    fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons", {
+    fetch("https://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
