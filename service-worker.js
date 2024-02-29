@@ -1,4 +1,4 @@
-var cacheName = "classpurchase";
+var cacheName = "classpurchase-v1";
 var cacheFiles = [
     "index.html",
     "http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/art.png",
