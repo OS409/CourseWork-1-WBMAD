@@ -14,7 +14,7 @@ var cacheFiles = [
     "http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/maths.png",
     "http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/music.png",
     "http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/physics.png",
-    "http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/science.png"//shouuld thie be changed?
+    "http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/science.png"//should this be changed?
 ];
 
 self.addEventListener("install", function(e) {
