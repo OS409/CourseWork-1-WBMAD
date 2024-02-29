@@ -99,7 +99,7 @@
         created: function() {
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("service-worker.js");
-            }
+            };
             fetch("http://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons").then(
                 function(response) {
                     response.json().then(
