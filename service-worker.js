@@ -14,7 +14,7 @@ var cacheFiles = [
     "images/maths.png",
     "images/music.png",
     "images/physics.png",
-    "images/science.png"
+    "images/science.png"//shouuld thie be changed?
 ];
 
 self.addEventListener("install", function(e) {
