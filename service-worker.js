@@ -1,7 +1,6 @@
 var cacheName = "classpurchase";
 var cacheFiles = [
     "index.html",
-    "collections/lessons.js",
     "images/art.png",
     "images/assyrian_flag.png",
     "images/biology.png",
