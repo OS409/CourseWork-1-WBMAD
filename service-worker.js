@@ -1,4 +1,4 @@
-var cacheName = "lessonpurchase";
+var cacheName = "classpurchase";
 var cacheFiles = [
     "index.html",
     "images/art.png",

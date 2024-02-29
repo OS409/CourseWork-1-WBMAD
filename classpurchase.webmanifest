@@ -1,6 +1,6 @@
 {
     "name": "My Class Lesson Purchase Store PWA",
-    "short_name": "LessonStore",
+    "short_name": "classpurchase",
     "description": "A simple PWA for my website for booking extra classes",
     "icons": [
         {
