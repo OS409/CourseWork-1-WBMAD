@@ -35,6 +35,7 @@ self.addEventListener("fetch", function (e) {
                 console.log("Service Worker] Resoruce fetched from the cache for: " + e.request.url);
                 return cachedFile;
             } else { //if the file is not in the cache, download the file
+                console.log(e.request);
                 return fetch(e.request).then(function (response) {
                     return caches.open(cacheName).then(function (cache) {
                         //add the new file to the cache
