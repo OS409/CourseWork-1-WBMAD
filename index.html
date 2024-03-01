@@ -16,6 +16,19 @@
                 {{ cartButtonLabel }}
             </button>
             <button disabled='disabled' v-else>Shopping Cart</button>
+                <button @click="deleteAllCaches" class="test-elem">
+                    <span class="fas fa-trash"></span>
+                    Delete All Caches
+                </button>
+                <button @click="unregisterAllServiceWorkers" class="test-elem">
+                    <span class="fas fa-uniregistry"></span>
+                    Unregister All ServiceWorkers
+                </button>
+                <button @click="reloadPage" class="test-elem">
+                    <span class="fas fa-sync"></span>
+                    Reload Page
+                </button>
+            </button>
         </header>
         <main>
             <div v-if="showLesson">
@@ -126,6 +139,26 @@
             },
             showCart: function() {
                 this.showLesson = this.showLesson ? false : true;
+            },
+            deleteAllCaches() {
+                caches.keys().then(function(names) {
+                    for (let name of names)
+                    caches.delete(name);
+                });
+
+                console.log("All Caches Deleted");
+            },
+            unregisterAllServiceWorkers() {
+                navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                    for (let registration of registrations) {
+                        registration.unregister();
+                    }
+                });
+
+                console.log("ServiceWorkers Unregistered");
+            },
+            reloadPage() {
+                window.location.reload();
             },
             submitForm: function() {
     let combinedData = {
