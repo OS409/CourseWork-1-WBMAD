@@ -28,6 +28,8 @@
                     <span class="fas fa-sync"></span>
                     Reload Page
                 </button>
+                <strong class="test-elem">HTTPS Test:</strong>
+                <a v-bind:href="serverURL" target="_blank">link</a>
             </button>
         </header>
         <main>
@@ -107,7 +109,9 @@
                 location: 'Sort by Location',
                 spaces: 'Sort by Space'
             },
-            cart: []
+            cart: [],
+            //serverURL: "https://localhost:3030/collections/lessons"
+            serverURL: "https://testapp-env.eba-26mfnh5p.eu-west-2.elasticbeanstalk.com/collections/lessons"
         },
         
         created: function() {
