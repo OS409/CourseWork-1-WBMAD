@@ -9,6 +9,7 @@
     </head>
     <body>
     <div id="app">
+        <my-component></my-component>
         <header>
             <h1>{{sitename}}</h1>
             <button @click="showCart" v-if='cartItemCount > 0 || !showLesson'>
@@ -302,6 +303,14 @@
                     return this.showLesson ? 'Shopping Cart' : 'Lessons';
                 }
             }
+    });
+    const Component = {
+        template:  `<div>Hello From Local Component</div>`
+    }
+
+    new Vue({
+        el: '#app',
+        components: {'my-component': Component}
     });
 </script>
 </body>
